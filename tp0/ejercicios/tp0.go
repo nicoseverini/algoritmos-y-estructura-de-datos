@@ -13,17 +13,17 @@ func Maximo(vector []int) int {
 	if len(vector) == 0 {
 		return -1
 	} else {
-		valor_max := vector[0]
-		indice_max := 0
+		valorMax := vector[0]
+		indiceMax := 0
 
 		for i := range vector{
-			if vector[i] > valor_max{
-				valor_max = vector[i]
-				indice_max = i
+			if vector[i] > valorMax{
+				valorMax = vector[i]
+				indiceMax = i
 			}
 		}
 
-		return indice_max
+		return indiceMax
 	}
 }
 
@@ -32,7 +32,30 @@ func Maximo(vector []int) int {
 // Un arreglo es menor a otro cuando al compararlos elemento a elemento, el primer elemento en el que difieren
 // no existe o es menor.
 func Comparar(vector1 []int, vector2 []int) int {
-	return 0
+	largo1 := len(vector1)
+	largo2 := len(vector2)
+
+	minLargo := largo1
+	if largo2 < minLargo{
+		minLargo = largo2
+	}
+
+	for i := 0; i < minLargo; i++ {
+		if vector1[i] < vector2[i]{
+			return -1
+		} else if vector1[i] > vector2[i]{
+			return 1
+		}
+	}
+	
+	if largo1 < largo2 {
+		return -1
+	} else if largo1 > largo2 {
+		return 1
+	} else {
+		return 0
+	}
+
 }
 
 // Seleccion ordena el arreglo recibido mediante el algoritmo de selección.
@@ -51,16 +74,36 @@ func Seleccion(vector []int) {
 
 }
 
+func SumaAux(vector []int, indice int) int {
+	if indice == len(vector) {
+		return 0
+	}
+
+	return vector[indice] + SumaAux(vector, indice+1)
+}
+
 // Suma devuelve la suma de los elementos de un arreglo. En caso de no tener elementos, debe devolver 0.
 // Esta función debe implementarse de forma RECURSIVA. Se puede usar una función auxiliar (que sea
 // la recursiva).
 func Suma(vector []int) int {
-	return 0
+	return SumaAux(vector, 0)
+}
+
+func CapicuaAux(cadena string, indice int) bool {
+	if indice == len(cadena){
+		return true
+	}
+
+	if cadena[indice] != cadena[len(cadena)-indice-1]{
+		return false
+	}
+
+	return CapicuaAux(cadena, indice + 1)
 }
 
 // EsCadenaCapicua devuelve si la cadena es un palíndromo. Es decir, si se lee igual al derecho que al revés.
 // Esta función debe implementarse de forma RECURSIVA. Se puede usar una función auxiliar (que sea
 // la recursiva).
 func EsCadenaCapicua(cadena string) bool {
-	return false
+	return CapicuaAux(cadena,0)
 }
