@@ -16,8 +16,8 @@ func Maximo(vector []int) int {
 		valorMax := vector[0]
 		indiceMax := 0
 
-		for i := range vector{
-			if vector[i] > valorMax{
+		for i := range vector {
+			if vector[i] > valorMax {
 				valorMax = vector[i]
 				indiceMax = i
 			}
@@ -36,18 +36,18 @@ func Comparar(vector1 []int, vector2 []int) int {
 	largo2 := len(vector2)
 
 	minLargo := largo1
-	if largo2 < minLargo{
+	if largo2 < minLargo {
 		minLargo = largo2
 	}
 
 	for i := 0; i < minLargo; i++ {
-		if vector1[i] < vector2[i]{
+		if vector1[i] < vector2[i] {
 			return -1
-		} else if vector1[i] > vector2[i]{
+		} else if vector1[i] > vector2[i] {
 			return 1
 		}
 	}
-	
+
 	if largo1 < largo2 {
 		return -1
 	} else if largo1 > largo2 {
@@ -63,7 +63,7 @@ func Seleccion(vector []int) {
 	for i := 0; i < len(vector); i++ {
 		minimo := i
 		for j := i + 1; j < len(vector); j++ {
-			if vector[minimo] > vector[j]{
+			if vector[minimo] > vector[j] {
 				minimo = j
 			}
 		}
@@ -90,20 +90,20 @@ func Suma(vector []int) int {
 }
 
 func CapicuaAux(cadena string, indice int) bool {
-	if indice == len(cadena){
+	if indice == len(cadena) {
 		return true
 	}
 
-	if cadena[indice] != cadena[len(cadena)-indice-1]{
+	if cadena[indice] != cadena[len(cadena)-indice-1] {
 		return false
 	}
 
-	return CapicuaAux(cadena, indice + 1)
+	return CapicuaAux(cadena, indice+1)
 }
 
 // EsCadenaCapicua devuelve si la cadena es un palíndromo. Es decir, si se lee igual al derecho que al revés.
 // Esta función debe implementarse de forma RECURSIVA. Se puede usar una función auxiliar (que sea
 // la recursiva).
 func EsCadenaCapicua(cadena string) bool {
-	return CapicuaAux(cadena,0)
+	return CapicuaAux(cadena, 0)
 }
