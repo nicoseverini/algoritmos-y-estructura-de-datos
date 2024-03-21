@@ -60,18 +60,13 @@ func Comparar(vector1 []int, vector2 []int) int {
 
 // Seleccion ordena el arreglo recibido mediante el algoritmo de selección.
 func Seleccion(vector []int) {
-	for i := 0; i < len(vector); i++ {
-		minimo := i
-		for j := i + 1; j < len(vector); j++ {
-			if vector[minimo] > vector[j] {
-				minimo = j
-			}
+	var slice []int = vector
+	for i := len(vector); i > 1; i-- {
+		indexMax := Maximo(slice[:i])
+		if indexMax != (i - 1) {
+			Swap(&slice[indexMax], &slice[i-1])
 		}
-		aux := vector[i]
-		vector[i] = vector[minimo]
-		vector[minimo] = aux
 	}
-
 }
 
 func SumaAux(vector []int, indice int) int {
