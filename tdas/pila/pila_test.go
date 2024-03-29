@@ -62,6 +62,7 @@ func TestDesapilarPila(t *testing.T) {
 
 	pila.Apilar(2)
 	pila.Apilar(3)
+	require.Equal(t, 3, pila.VerTope(), "Si apile el tope tiene que devolverme el ultimo elemento apilado")
 	pila.Desapilar()
 	require.Equal(t, 2, pila.VerTope(), "si desapile el tope tiene que devolverme el nuevo ultimo elemento de la pila")
 
@@ -71,6 +72,20 @@ func TestDesapilarPila(t *testing.T) {
 	require.True(t, pila.EstaVacia())
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.VerTope() })
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
+
+	pilaStr := TDAPila.CrearPilaDinamica[string]()
+	require.True(t, pilaStr.EstaVacia())
+	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.VerTope() })
+	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.Desapilar() })
+
+	pilaStr.Apilar("a")
+	pilaStr.Desapilar()
+	require.True(t, pilaStr.EstaVacia())
+	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.VerTope() })
+	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.Desapilar() })
+	
+	pilaStr.Apilar("b")
+	require.Equal(t, "b", pilaStr.VerTope(), "Si apile el tope tiene que devolverme el ultimo elemento apilado")
 
 }
 

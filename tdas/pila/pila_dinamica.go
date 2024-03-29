@@ -16,38 +16,38 @@ func CrearPilaDinamica[T any]() Pila[T] {
 	return &pila
 }
 
-func (p pilaDinamica[T]) EstaVacia() bool {
-	return p.cantidad == 0
+func (pila pilaDinamica[T]) EstaVacia() bool {
+	return pila.cantidad == 0
 }
 
-func (p pilaDinamica[T]) VerTope() T {
-	if p.EstaVacia() {
+func (pila pilaDinamica[T]) VerTope() T {
+	if pila.EstaVacia() {
 		panic("La pila esta vacia")
 	} else {
-		return p.datos[p.cantidad-1]
+		return pila.datos[pila.cantidad-1]
 	}
 }
 
-func (p *pilaDinamica[T]) Apilar(valor T) {
-	if p.cantidad == len(p.datos) {
-		nuevosDatos := make([]T,(len(p.datos) * 2))
-		copy(nuevosDatos, p.datos)
-		p.datos = nuevosDatos
+func (pila *pilaDinamica[T]) Apilar(valor T) {
+	if pila.cantidad == len(pila.datos) {
+		nuevosDatos := make([]T,(len(pila.datos) * 2))
+		copy(nuevosDatos, pila.datos)
+		pila.datos = nuevosDatos
 	}
-	p.datos[p.cantidad] = valor
-	p.cantidad++
+	pila.datos[pila.cantidad] = valor
+	pila.cantidad++
 }
 
-func (p *pilaDinamica[T]) Desapilar() T {
-	if p.EstaVacia() {
+func (pila *pilaDinamica[T]) Desapilar() T {
+	if pila.EstaVacia() {
 		panic("La pila esta vacia")
 	} else {
-		valor := p.datos[p.cantidad-1]
-		p.cantidad--
-		if (p.cantidad * 4) <= len(p.datos) {
-			nuevosDatos := make([]T,(len(p.datos) / 2))
-			copy(nuevosDatos, p.datos)
-			p.datos = nuevosDatos
+		valor := pila.datos[pila.cantidad-1]
+		pila.cantidad--
+		if (pila.cantidad * 4) <= len(pila.datos) {
+			nuevosDatos := make([]T,(len(pila.datos) / 2))
+			copy(nuevosDatos, pila.datos)
+			pila.datos = nuevosDatos
 		}
 		return valor
 	}
