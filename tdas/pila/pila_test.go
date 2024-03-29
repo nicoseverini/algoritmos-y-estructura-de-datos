@@ -18,13 +18,14 @@ func TestApilarPila(t *testing.T) {
 	require.True(t, pilaInt.EstaVacia())
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaInt.VerTope() })
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaInt.Desapilar() })
+
 	pilaInt.Apilar(3)
 	require.False(t, pilaInt.EstaVacia())
 	require.Equal(t, 3, pilaInt.VerTope(), "Si apilo un elemento el tope me devuelve dicho elemento apilado")
+
 	pilaInt.Apilar(33)
 	require.False(t, pilaInt.EstaVacia())
 	require.Equal(t, 33, pilaInt.VerTope(), "Si apilo un elemento el tope me devuelve dicho elemento apilado")
-
 
 	pilaStr := TDAPila.CrearPilaDinamica[string]()
 	require.True(t, pilaStr.EstaVacia())
@@ -34,7 +35,7 @@ func TestApilarPila(t *testing.T) {
 	pilaStr.Apilar("Test")
 	require.False(t, pilaStr.EstaVacia())
 	require.Equal(t, "Test", pilaStr.VerTope(), "Si apilo un elemento el tope me devuelve dicho elemento apilado")
-	
+
 	type ejemplo struct {
 		texto string
 	}
@@ -54,21 +55,23 @@ func TestDesapilarPila(t *testing.T) {
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
 
 	pila.Apilar(1)
-	require.Equal(t, 1, pila.VerTope(), "Si apile el tope tiene que devolverme el ultimo elemento apilado")
-	pila.Desapilar()
+	require.False(t, pila.EstaVacia())
+	require.Equal(t, 1, pila.Desapilar(), "Si desapilo me devuelve el elemento desapilado")
 	require.True(t, pila.EstaVacia())
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.VerTope() })
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
 
 	pila.Apilar(2)
 	pila.Apilar(3)
-	require.Equal(t, 3, pila.VerTope(), "Si apile el tope tiene que devolverme el ultimo elemento apilado")
-	pila.Desapilar()
+	require.False(t, pila.EstaVacia())
+	require.Equal(t, 3, pila.Desapilar(), "Si desapilo me devuelve el elemento desapilado")
 	require.Equal(t, 2, pila.VerTope(), "si desapile el tope tiene que devolverme el nuevo ultimo elemento de la pila")
 
 	pila.Apilar(4)
-	pila.Desapilar()
-	pila.Desapilar()
+	require.False(t, pila.EstaVacia())
+	require.Equal(t, 4, pila.Desapilar(), "Si desapilo me devuelve el elemento desapilado")
+	require.False(t, pila.EstaVacia())
+	require.Equal(t, 2, pila.Desapilar(), "Si desapilo me devuelve el elemento desapilado")
 	require.True(t, pila.EstaVacia())
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.VerTope() })
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
@@ -79,11 +82,12 @@ func TestDesapilarPila(t *testing.T) {
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.Desapilar() })
 
 	pilaStr.Apilar("a")
-	pilaStr.Desapilar()
+	require.False(t, pilaStr.EstaVacia())
+	require.Equal(t, "a", pilaStr.Desapilar(), "Si desapilo me devuelve el elemento desapilado")
 	require.True(t, pilaStr.EstaVacia())
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.VerTope() })
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pilaStr.Desapilar() })
-	
+
 	pilaStr.Apilar("b")
 	require.Equal(t, "b", pilaStr.VerTope(), "Si apile el tope tiene que devolverme el ultimo elemento apilado")
 
@@ -95,18 +99,29 @@ func TestVolumenPila(t *testing.T) {
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.VerTope() })
 	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
 
+	for i := range 100 {
+		pila.Apilar(i + 1)
+		require.Equal(t, i+1, pila.VerTope(), "No importa el largo de mi pila si amplie el tope me tiene que devolver el ultimo elemento de esta")
+		require.False(t, pila.EstaVacia())
+
+		require.Equal(t, i+1, pila.Desapilar(), "No importa el largo de mi pila si desapilo me tiene que devolver el elemento desapilado")
+
+		require.True(t, pila.EstaVacia())
+		require.PanicsWithValue(t, "La pila esta vacia", func() { pila.VerTope() })
+		require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
+	}
+
 	volumenPila := 1000
 	for i := range volumenPila {
-		pila.Apilar(i+1)
+		pila.Apilar(i + 1)
 		require.Equal(t, i+1, pila.VerTope(), "No importa el largo de mi pila si amplie el tope me tiene que devolver el ultimo elemento de esta")
 	}
 
 	require.False(t, pila.EstaVacia())
 	require.Equal(t, volumenPila, pila.VerTope(), "No importa el largo de mi pila el tope me tiene que devolver el ultimo elemento de esta")
-	
+
 	for i := range volumenPila {
-		require.Equal(t, volumenPila-i, pila.VerTope(), "No importa el largo de mi pila si desapile el tope me tiene que devolver el nuevo ultimo elemento de esta")
-		pila.Desapilar()
+		require.Equal(t, volumenPila-i, pila.Desapilar(), "No importa el largo de mi pila si desapilo me tiene que devolver el elemento desapilado")
 	}
 
 	require.True(t, pila.EstaVacia())

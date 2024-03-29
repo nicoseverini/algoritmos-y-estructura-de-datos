@@ -9,7 +9,7 @@ type pilaDinamica[T any] struct {
 
 func CrearPilaDinamica[T any]() Pila[T] {
 	pila := pilaDinamica[T]{
-		datos: make([]T, 5),
+		datos:    make([]T, 5),
 		cantidad: 0,
 	}
 
@@ -28,11 +28,15 @@ func (pila pilaDinamica[T]) VerTope() T {
 	}
 }
 
+func (pila *pilaDinamica[T]) redimensionar(capacidad int) {
+	nuevosDatos := make([]T, capacidad)
+	copy(nuevosDatos, pila.datos)
+	pila.datos = nuevosDatos
+}
+
 func (pila *pilaDinamica[T]) Apilar(valor T) {
 	if pila.cantidad == len(pila.datos) {
-		nuevosDatos := make([]T,(len(pila.datos) * 2))
-		copy(nuevosDatos, pila.datos)
-		pila.datos = nuevosDatos
+		pila.redimensionar(len(pila.datos) * 2)
 	}
 	pila.datos[pila.cantidad] = valor
 	pila.cantidad++
@@ -42,13 +46,12 @@ func (pila *pilaDinamica[T]) Desapilar() T {
 	if pila.EstaVacia() {
 		panic("La pila esta vacia")
 	} else {
+		if (pila.cantidad * 4) <= len(pila.datos) {
+			pila.redimensionar(len(pila.datos) / 2)
+
+		}
 		valor := pila.datos[pila.cantidad-1]
 		pila.cantidad--
-		if (pila.cantidad * 4) <= len(pila.datos) {
-			nuevosDatos := make([]T,(len(pila.datos) / 2))
-			copy(nuevosDatos, pila.datos)
-			pila.datos = nuevosDatos
-		}
 		return valor
 	}
 }
