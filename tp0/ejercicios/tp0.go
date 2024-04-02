@@ -25,15 +25,6 @@ func Maximo(vector []int) int {
 	}
 }
 
-func MenorLargo(largo1 int, largo2 int) int {
-	minLargo := largo1
-	if largo2 < minLargo {
-		minLargo = largo2
-	}
-
-	return minLargo
-}
-
 // Comparar compara dos arreglos de longitud especificada.
 // Devuelve -1 si el primer arreglo es menor que el segundo; 0 si son iguales; o 1 si el primero es el mayor.
 // Un arreglo es menor a otro cuando al compararlos elemento a elemento, el primer elemento en el que difieren
@@ -42,9 +33,7 @@ func Comparar(vector1 []int, vector2 []int) int {
 	largo1 := len(vector1)
 	largo2 := len(vector2)
 
-	minLargo := MenorLargo(largo1, largo2)
-
-	for i := 0; i < minLargo; i++ {
+	for i := 0; i < largo1 && i < largo2; i++ {
 		if vector1[i] < vector2[i] {
 			return -1
 		} else if vector1[i] > vector2[i] {
@@ -52,13 +41,13 @@ func Comparar(vector1 []int, vector2 []int) int {
 		}
 	}
 
-	if largo1 == largo2 {
-		return 0
-	} else if minLargo == largo2 {
+	if largo1 < largo2 {
+		return -1
+	} else if largo1 > largo2 {
 		return 1
 	}
 
-	return -1
+	return 0
 }
 
 // Seleccion ordena el arreglo recibido mediante el algoritmo de selección.
