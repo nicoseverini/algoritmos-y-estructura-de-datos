@@ -21,7 +21,7 @@ func guardarArchivoEnArreglo(nombreArchivo string) []int {
 	defer archivo.Close()
 
 	s := bufio.NewScanner(archivo)
-	var arry []int
+	var arreglo []int
 
 	for s.Scan() {
 		line := s.Text()
@@ -32,7 +32,7 @@ func guardarArchivoEnArreglo(nombreArchivo string) []int {
 			return nil
 		}
 
-		arry = append(arry, num)
+		arreglo = append(arreglo, num)
 	}
 	err = s.Err()
 	if err != nil {
@@ -40,40 +40,37 @@ func guardarArchivoEnArreglo(nombreArchivo string) []int {
 		return nil
 	}
 
-	return arry
+	return arreglo
 }
 
-func calcularMayoryOrdenar(arry1 []int, arry2 []int) []int {
-	i := ej.Comparar(arry1, arry2)
-	var arryMayor []int
-	if i == 1 {
-		arryMayor = arry1
-	} else if i == -1 {
-		arryMayor = arry2
-	} else if i == 0 {
-		arryMayor = arry1
+func calcularMayorYOrdenar(arreglo1 []int, arreglo2 []int) []int {
+	i := ej.Comparar(arreglo1, arreglo2)
+
+	arregloMayor := arreglo1
+	if i == -1 {
+		arregloMayor = arreglo2
 	}
 
-	ej.Seleccion(arryMayor)
+	ej.Seleccion(arregloMayor)
 
-	return arryMayor
+	return arregloMayor
 }
 
-func imprimirArreglo(arry []int) {
-	for i := range arry {
-		fmt.Println(arry[i])
+func imprimirArreglo(arreglo []int) {
+	for i := range arreglo {
+		fmt.Println(arreglo[i])
 	}
 }
 
 func main() {
-	var arryArchivo1 []int
-	var arryArchivo2 []int
+	var arregloArchivo1 []int
+	var arregloArchivo2 []int
 
-	arryArchivo1 = guardarArchivoEnArreglo(archivo1)
-	arryArchivo2 = guardarArchivoEnArreglo(archivo2)
+	arregloArchivo1 = guardarArchivoEnArreglo(archivo1)
+	arregloArchivo2 = guardarArchivoEnArreglo(archivo2)
 
-	arryMayorOrdenado := calcularMayoryOrdenar(arryArchivo1, arryArchivo2)
+	arregloMayorOrdenado := calcularMayoryOrdenar(arregloArchivo1, arregloArchivo2)
 
-	imprimirArreglo(arryMayorOrdenado)
+	imprimirArreglo(arregloMayorOrdenado)
 
 }
