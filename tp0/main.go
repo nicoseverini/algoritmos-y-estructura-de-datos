@@ -69,7 +69,7 @@ func main() {
 	arregloArchivo1 = guardarArchivoEnArreglo(archivo1)
 	arregloArchivo2 = guardarArchivoEnArreglo(archivo2)
 
-	arregloMayorOrdenado := calcularMayoryOrdenar(arregloArchivo1, arregloArchivo2)
+	arregloMayorOrdenado := calcularMayorYOrdenar(arregloArchivo1, arregloArchivo2)
 
 	imprimirArreglo(arregloMayorOrdenado)
 
