@@ -7,9 +7,11 @@ type pilaDinamica[T any] struct {
 	cantidad int
 }
 
+const largoInicialDatos = 5
+
 func CrearPilaDinamica[T any]() Pila[T] {
 	pila := pilaDinamica[T]{
-		datos:    make([]T, 5),
+		datos:    make([]T, largoInicialDatos),
 		cantidad: 0,
 	}
 
@@ -45,13 +47,11 @@ func (pila *pilaDinamica[T]) Apilar(valor T) {
 func (pila *pilaDinamica[T]) Desapilar() T {
 	if pila.EstaVacia() {
 		panic("La pila esta vacia")
-	} else {
-		if (pila.cantidad * 4) <= len(pila.datos) {
-			pila.redimensionar(len(pila.datos) / 2)
-
-		}
-		valor := pila.datos[pila.cantidad-1]
-		pila.cantidad--
-		return valor
 	}
+	if (pila.cantidad * 4) <= len(pila.datos) {
+		pila.redimensionar(len(pila.datos) / 2)
+	}
+
+	pila.cantidad--
+	return pila.datos[pila.cantidad]
 }
