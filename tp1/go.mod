@@ -1,3 +1,3 @@
-module tp1
+module dc
 
 go 1.22.1
