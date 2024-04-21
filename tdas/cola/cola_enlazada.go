@@ -8,21 +8,16 @@ type nodo[T any] struct {
 type colaEnlazada[T any] struct {
 	primerNodo *nodo[T]
 	ultimoNodo *nodo[T]
-	cantidad   int
 }
 
 func CrearColaEnlazada[T any]() Cola[T] {
-	cola := colaEnlazada[T]{
-		primerNodo: nil,
-		ultimoNodo: nil,
-		cantidad:   0,
-	}
+	cola := new(colaEnlazada[T])
 
-	return &cola
+	return cola
 }
 
 func (cola colaEnlazada[T]) EstaVacia() bool {
-	return cola.cantidad == 0
+	return cola.primerNodo == nil && cola.ultimoNodo == nil
 }
 
 func (cola colaEnlazada[T]) VerPrimero() T {
@@ -34,10 +29,10 @@ func (cola colaEnlazada[T]) VerPrimero() T {
 }
 
 func crearNodo[T any](valor T) *nodo[T] {
-	return &nodo[T]{
-		valor:       valor,
-		proximoNodo: nil,
-	}
+	NodoCola := new(nodo[T])
+	NodoCola.valor = valor
+
+	return NodoCola
 }
 
 func (cola *colaEnlazada[T]) Encolar(valor T) {
@@ -49,8 +44,6 @@ func (cola *colaEnlazada[T]) Encolar(valor T) {
 		cola.ultimoNodo.proximoNodo = nuevoNodo
 	}
 	cola.ultimoNodo = nuevoNodo
-
-	cola.cantidad++
 }
 
 func (cola *colaEnlazada[T]) Desencolar() T {
@@ -59,13 +52,11 @@ func (cola *colaEnlazada[T]) Desencolar() T {
 	}
 
 	valor := cola.primerNodo.valor
-	if cola.cantidad == 1 {
-		cola.primerNodo = nil
+
+	cola.primerNodo = cola.primerNodo.proximoNodo
+	if cola.primerNodo == nil {
 		cola.ultimoNodo = nil
-	} else {
-		cola.primerNodo = cola.primerNodo.proximoNodo
 	}
 
-	cola.cantidad--
 	return valor
 }
