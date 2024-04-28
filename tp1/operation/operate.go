@@ -1,7 +1,6 @@
 package operation
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"tdas/pila"
@@ -27,7 +26,7 @@ func getOperands(quantity int, stack pila.Pila[int64]) ([]int64, error) {
 	operands := make([]int64, 0)
 	for i := 0; i < quantity; i++ {
 		if stack.EstaVacia() {
-			return nil, fmt.Errorf("insufficient operands for operator")
+			return nil, InsufficientOperandsError{}
 		}
 		operand := stack.Desapilar()
 		operands = append([]int64{operand}, operands...)
@@ -62,12 +61,8 @@ func operate(instruction string, stack pila.Pila[int64]) (int64, error) {
 		case LOGARITHM:
 			op = Logarithm{}
 		default:
-			return 0, fmt.Errorf("unknown operator %s", instruction)
+			return 0, UnknownOperatorError{Operator: instruction}
 		}
-	}
-
-	if err != nil {
-		return 0, fmt.Errorf("%s %s", err.Error(), instruction)
 	}
 
 	result, err := op.Operate(operands)
@@ -82,7 +77,7 @@ func CalculateExpression(expression string) (int64, error) {
 	for _, instruction := range instructions {
 		if isOperator(instruction) {
 			if stack.EstaVacia() {
-				return 0, fmt.Errorf("the stack is empty")
+				return 0, StackEmptyError{}
 			}
 
 			result, err := operate(instruction, stack)
@@ -94,7 +89,7 @@ func CalculateExpression(expression string) (int64, error) {
 		} else {
 			number, err := strconv.ParseInt(instruction, 10, 64)
 			if err != nil {
-				return 0, fmt.Errorf("problems when converting number to int64")
+				return 0, ConvertStringError{}
 			}
 
 			stack.Apilar(number)
@@ -103,7 +98,7 @@ func CalculateExpression(expression string) (int64, error) {
 	result := stack.Desapilar()
 
 	if !stack.EstaVacia() {
-		return 0, fmt.Errorf("the content of my stack should have only the result")
+		return 0, StackResultError{}
 	}
 
 	return result, nil
