@@ -1,26 +1,26 @@
 package main
 
 import (
-	//"bufio"
+	"bufio"
 	"dc/operation"
 	"fmt"
-	//"os"
+	"os"
 )
 
 func main() {
-	//s := bufio.NewScanner(os.Stdin)
+	s := bufio.NewScanner(os.Stdin)
 
-	//for s.Scan() {
-	//	line := s.Text()
-	line := "4 4 +" //TODO: esto es solo para dubuguear, borrar despues
-	var result int64
-	var err error
+	for s.Scan() {
+		line := s.Text()
 
-	result, err = operation.CalculateExpression(line)
-	if err != nil {
-		fmt.Println("ERROR:", err)
-	} else {
-		fmt.Println(result)
+		var result int64
+		var err error
+
+		result, err = operation.CalculateExpression(line)
+		if err != nil {
+			fmt.Println("ERROR")
+		} else {
+			fmt.Println(result)
+		}
 	}
-	//}
 }
