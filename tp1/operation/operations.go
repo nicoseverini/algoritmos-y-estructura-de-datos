@@ -6,6 +6,10 @@ import (
 
 type Addition struct{}
 
+func (Addition) OperandQuantity() int {
+	return 2
+}
+
 func (Addition) Operate(operands []int64) (int64, error) {
 	if len(operands) < 2 {
 		return 0, InsufficientOperandsError{Operation: "addition"}
@@ -14,6 +18,10 @@ func (Addition) Operate(operands []int64) (int64, error) {
 }
 
 type Subtraction struct{}
+
+func (Subtraction) OperandQuantity() int {
+	return 2
+}
 
 func (Subtraction) Operate(operands []int64) (int64, error) {
 	if len(operands) < 2 {
@@ -24,6 +32,10 @@ func (Subtraction) Operate(operands []int64) (int64, error) {
 
 type Multiplication struct{}
 
+func (Multiplication) OperandQuantity() int {
+	return 2
+}
+
 func (Multiplication) Operate(operands []int64) (int64, error) {
 	if len(operands) < 2 {
 		return 0, InsufficientOperandsError{Operation: "multiplication"}
@@ -32,6 +44,10 @@ func (Multiplication) Operate(operands []int64) (int64, error) {
 }
 
 type Division struct{}
+
+func (Division) OperandQuantity() int {
+	return 2
+}
 
 func (Division) Operate(operands []int64) (int64, error) {
 	if len(operands) < 2 {
@@ -45,6 +61,10 @@ func (Division) Operate(operands []int64) (int64, error) {
 
 type Power struct{}
 
+func (Power) OperandQuantity() int {
+	return 2
+}
+
 func (Power) Operate(operands []int64) (int64, error) {
 	if len(operands) < 2 {
 		return 0, InsufficientOperandsError{Operation: "power"}
@@ -56,6 +76,10 @@ func (Power) Operate(operands []int64) (int64, error) {
 }
 
 type Logarithm struct{}
+
+func (Logarithm) OperandQuantity() int {
+	return 2
+}
 
 func (Logarithm) Operate(operands []int64) (int64, error) {
 	if len(operands) < 2 {
@@ -69,6 +93,10 @@ func (Logarithm) Operate(operands []int64) (int64, error) {
 
 type SquareRoot struct{}
 
+func (SquareRoot) OperandQuantity() int {
+	return 1
+}
+
 func (SquareRoot) Operate(operands []int64) (int64, error) {
 	if len(operands) < 1 {
 		return 0, InsufficientOperandsError{Operation: "square root"}
@@ -80,6 +108,10 @@ func (SquareRoot) Operate(operands []int64) (int64, error) {
 }
 
 type Ternary struct{}
+
+func (Ternary) OperandQuantity() int {
+	return 3
+}
 
 func (Ternary) Operate(operands []int64) (int64, error) {
 	if len(operands) < 3 {

@@ -37,35 +37,36 @@ func getOperands(quantity int, stack pila.Pila[int64]) ([]int64, error) {
 func operate(instruction string, stack pila.Pila[int64]) (int64, error) {
 	var op Operation
 	var operands []int64
+	var result int64
 	var err error
 
-	if instruction == SQRT {
-		operands, err = getOperands(1, stack)
+	switch instruction {
+	case ADDITION:
+		op = Addition{}
+	case SUBTRACTION:
+		op = Subtraction{}
+	case MULTIPLICATION:
+		op = Multiplication{}
+	case DIVISION:
+		op = Division{}
+	case RAISE:
+		op = Power{}
+	case LOGARITHM:
+		op = Logarithm{}
+	case SQRT:
 		op = SquareRoot{}
-	} else if instruction == TERNARY {
-		operands, err = getOperands(3, stack)
+	case TERNARY:
 		op = Ternary{}
-	} else {
-		operands, err = getOperands(2, stack)
-		switch instruction {
-		case ADDITION:
-			op = Addition{}
-		case SUBTRACTION:
-			op = Subtraction{}
-		case MULTIPLICATION:
-			op = Multiplication{}
-		case DIVISION:
-			op = Division{}
-		case RAISE:
-			op = Power{}
-		case LOGARITHM:
-			op = Logarithm{}
-		default:
-			return 0, UnknownOperatorError{Operator: instruction}
-		}
+	default:
+		return 0, UnknownOperatorError{Operator: instruction}
 	}
 
-	result, err := op.Operate(operands)
+	operands, err = getOperands(op.OperandQuantity(), stack)
+	if err != nil {
+		return 0, err
+	}
+
+	result, err = op.Operate(operands)
 
 	return result, err
 }
