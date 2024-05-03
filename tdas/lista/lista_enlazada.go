@@ -35,11 +35,7 @@ func (lista *listaEnlazada[T]) InsertarUltimo(dato T) {
 }
 
 func (lista *listaEnlazada[T]) BorrarPrimero() T {
-	if lista.EstaVacia() {
-		panic("La lista esta vacia")
-	}
-
-	dato := lista.primero.dato
+	dato := lista.VerPrimero()
 	lista.primero = lista.primero.siguiente
 	lista.largo--
 	if lista.largo == 0 {
