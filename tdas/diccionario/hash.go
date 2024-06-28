@@ -6,8 +6,12 @@ import (
 )
 
 const (
-	TAMANIOINICIAL  = 11
-	CANTIDADINICIAL = 0
+	TAMANIOINICIAL         = 11
+	CANTIDADINICIAL        = 0
+	FACTORDECARGAAUMENTAR  = 2
+	FACTORDECARGADISMINUIR = 1
+	AUMENTARREDIMENCION    = 2
+	DISMINUIRREDIMENCION   = 2
 )
 
 type parClaveValor[K comparable, V any] struct {
@@ -35,8 +39,8 @@ func CrearHash[K comparable, V any]() Diccionario[K, V] {
 
 func (h *hashAbierto[K, V]) Guardar(clave K, valor V) {
 	factorDeCarga := h.cantidad / h.tamanio
-	if factorDeCarga > 2 {
-		h.redimension(h.tamanio * 2)
+	if factorDeCarga > FACTORDECARGAAUMENTAR {
+		h.redimension(h.tamanio * AUMENTARREDIMENCION)
 	}
 	h.insertarElemento(clave, valor)
 }
@@ -50,10 +54,10 @@ func (h *hashAbierto[K, V]) Pertenece(clave K) bool {
 	}
 
 	// Busco en que lugar de mi lista esta la clave.
-	encontrado := busqueda(h.tabla[pos], clave)
+	buscado := busqueda(h.tabla[pos], clave)
 
 	// Devuelvo si la clave es igual a la clave buscada.
-	return encontrado.HaySiguiente()
+	return buscado.HaySiguiente()
 }
 
 func (h *hashAbierto[K, V]) Obtener(clave K) V {
@@ -63,12 +67,12 @@ func (h *hashAbierto[K, V]) Obtener(clave K) V {
 	}
 
 	pos := conseguirPosicion(clave, h.tamanio)
-	encontrado := busqueda(h.tabla[pos], clave)
-	if !encontrado.HaySiguiente() {
+	buscado := busqueda(h.tabla[pos], clave)
+	if !buscado.HaySiguiente() {
 		panic("La clave no pertenece al diccionario")
 	}
 
-	return encontrado.VerActual().valor
+	return buscado.VerActual().valor
 }
 
 func (h *hashAbierto[K, V]) Borrar(clave K) V {
@@ -78,8 +82,8 @@ func (h *hashAbierto[K, V]) Borrar(clave K) V {
 	}
 
 	factorDeCarga := h.cantidad / h.tamanio
-	if factorDeCarga < 1 {
-		h.redimension(h.tamanio / 2)
+	if factorDeCarga < FACTORDECARGADISMINUIR {
+		h.redimension(h.tamanio / DISMINUIRREDIMENCION)
 	}
 
 	valor := h.borrarElemento(clave)
@@ -188,9 +192,9 @@ func (h *hashAbierto[K, V]) insertarElemento(clave K, valor V) {
 		h.tabla[pos] = nuevaLista
 
 	} else {
-		encontrado := busqueda(h.tabla[pos], clave)
-		if encontrado.HaySiguiente() {
-			encontrado.Borrar()
+		buscado := busqueda(h.tabla[pos], clave)
+		if buscado.HaySiguiente() {
+			buscado.Borrar()
 			h.cantidad--
 
 		}
@@ -203,13 +207,13 @@ func (h *hashAbierto[K, V]) insertarElemento(clave K, valor V) {
 func (h *hashAbierto[K, V]) borrarElemento(clave K) V {
 	pos := conseguirPosicion(clave, h.tamanio)
 
-	encontrado := busqueda(h.tabla[pos], clave)
-	if !encontrado.HaySiguiente() {
+	buscado := busqueda(h.tabla[pos], clave)
+	if !buscado.HaySiguiente() {
 		panic("La clave no pertenece al diccionario")
 	}
 
-	valor := encontrado.VerActual().valor
-	encontrado.Borrar()
+	valor := buscado.VerActual().valor
+	buscado.Borrar()
 
 	//si la lista en la que borre queda vacia la seteo la csailla a nil
 	if h.tabla[pos].EstaVacia() {
